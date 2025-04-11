@@ -248,13 +248,13 @@ def print_stored_data():
         db = Chroma(persist_directory=persist_dir, embedding_function=embedding_function)
         store_data = db.get(include=["documents", "metadatas"])
         print("Tổng số tài liệu lưu trữ:", len(store_data["documents"]))
-        for i, (doc, meta) in enumerate(zip(store_data["documents"], store_data["metadatas"])):
-            print("-" * 50)
-            print(f"Tài liệu {i+1}:")
-            print("Nội dung:")
-            print(doc)
-            print("Metadata:")
-            print(meta)
+        # for i, (doc, meta) in enumerate(zip(store_data["documents"], store_data["metadatas"])):
+        #     print("-" * 50)
+        #     print(f"Tài liệu {i+1}:")
+        #     print("Nội dung:")
+        #     print(doc)
+        #     print("Metadata:")
+        #     print(meta)
     else:
         print("Chưa có vector store lưu trữ dữ liệu.")
 
@@ -290,10 +290,10 @@ async def chatbot_node(state: ChatState) -> ChatState:
 
     retriever = db.as_retriever(search_kwargs={"k": 5})
     # In ra các tài liệu liên quan cho câu hỏi của người dùng (để debug)
-    relevant_docs = retriever.get_relevant_documents(state["question"])
-    logger.info("Số tài liệu liên quan lấy được: %d", len(relevant_docs))
-    for i, doc in enumerate(relevant_docs):
-        logger.info("Tài liệu %d: %s", i+1, doc.page_content)
+    # relevant_docs = retriever.get_relevant_documents(state["question"])
+    # logger.info("Số tài liệu liên quan lấy được: %d", len(relevant_docs))
+    # for i, doc in enumerate(relevant_docs):
+    #     logger.info("Tài liệu %d: %s", i+1, doc.page_content)
     
     combine_docs_chain = create_stuff_documents_chain(llm=llm, prompt=prompt_template)
     chain = create_retrieval_chain(retriever=retriever, combine_docs_chain=combine_docs_chain)
