@@ -1,0 +1,24 @@
+2025-04-11 17:01:13,614 - __main__ - ERROR - Lỗi khi lấy dữ liệu sản phẩm: (pyodbc.ProgrammingError) ('42000', '[42000] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Column "products.id" is invalid in the ORDER BY clause because it is not contained in either an aggregate function or the GROUP BY clause. (8127) (SQLExecDirectW); [42000] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Statement(s) could not be prepared. (8180)')
+[SQL: 
+            SELECT 
+                p.name AS product_name,
+                pv.name AS variant_name,
+                pv.name + ' - ' + c.name + ' - ' + m.name AS pvd_name,
+                pvd.price,
+                pvd.status,
+                c.name AS color_name,
+                m.name AS memory_name,
+                STRING_AGG(a.name + ': ' + av.value, ', ') AS attributes
+            FROM products p
+            JOIN products_variants pv ON p.id = pv.product_id
+            JOIN product_variant_details pvd ON pv.id = pvd.product_variant_id
+            JOIN attribute_values av ON av.product_variant_id = pv.id
+            JOIN attributes a ON av.attribute_id = a.id
+            JOIN colors c ON c.id = pvd.color_id
+            JOIN memories m ON pvd.memory_id = m.id
+            GROUP BY p.name, pv.name, pv.name + ' - ' + c.name + ' - ' + m.name, pvd.price, pvd.status, c.name, m.name
+            ORDER BY p.id, pv.id
+            OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+        ]
+[parameters: (0, 100)]
+(Background on this error at: https://sqlalche.me/e/20/f405)

@@ -24,6 +24,8 @@ source venv/bin/activate     # macOS/Linux
 ### 2. Cài đặt thư viện
 
 ```bash
+python.exe -m pip install --upgrade pip
+pip install https://gitlab.com/trungtv/vi_spacy/-/raw/master/packages/vi_core_news_lg-3.6.0/dist/vi_core_news_lg-3.6.0.tar.gz
 pip install -r requirements.txt
 ```
 
